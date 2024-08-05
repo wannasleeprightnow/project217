@@ -1,0 +1,29 @@
+name: style_check
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.12"
+    
+    - name: Install Poetry
+      run: pip install poetry
+
+    - name: Install dependencies
+      run: poetry install --with style_check
+
+    - name: mypy
+      run: poetry run mypy --config-file .mypy.ini src/
+
+    - name: black
+      run: poetry run black --config .black src/
+
+    - name: flake8
+      run: poetry run flake8 --verbose --enable-extensions=flake8-bugbear,flake8-simplify,flake8-async,flake8-unused-arguments,flake8-commas,flake8-comprehensions,flake8-quotes,flake8-builtins,pep8-naming,flake8-functions,flake8-alphabetize,flake8-import-order,flake8-annotations-coverage --config .flake8 src/
