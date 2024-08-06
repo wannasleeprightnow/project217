@@ -27,6 +27,16 @@ flake8-alphabetize = "^0.0.21"
 flake8-import-order = "^0.18.2"
 flake8-annotations-coverage = "^0.0.6"
 
+
+[tool.poetry.group.dev.dependencies]
+pydantic-settings = "^2.4.0"
+fastapi = "^0.112.0"
+sqlalchemy = "^2.0.31"
+alembic = "^1.13.2"
+asyncpg = "^0.29.0"
+pydantic = "^2.8.2"
+uvicorn = "^0.30.5"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
