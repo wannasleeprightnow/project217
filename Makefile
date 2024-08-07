@@ -1,12 +1,13 @@
 DC = sudo docker compose
 APP_FILE = docker_compose/app.yaml
 POSTGRES_FILE = docker_compose/postgres.yaml
+NGINX_FILE = docker_compose/nginx.yaml
 
 all:
 
-start_all: start_postgres start_app
+start_all: start_postgres start_app start_nginx
 
-drop_all: drop_postgres drop_app
+drop_all: drop_postgres drop_app drop_nginx
 
 start_app:
 	$(DC) -f $(APP_FILE) up --build -d
@@ -20,14 +21,23 @@ start_postgres:
 drop_postgres:
 	$(DC) -f $(POSTGRES_FILE) down
 
+start_nginx:
+	$(DC) -f $(NGINX_FILE) up --build -d
+
+drop_nginx:
+	$(DC) -f $(NGINX_FILE) down
+
 logs_all: 
-	$(DC) -f $(APP_FILE) -f $(POSTGRES_FILE) logs -f
+	$(DC) -f $(APP_FILE) -f $(POSTGRES_FILE) -f $(NGINX_FILE) logs -f
 
 logs_app:
 	$(DC) -f $(APP_FILE) logs -f
 
 logs_postgres:
 	$(DC) -f $(POSTGRES_FILE) logs -f
+
+logs_nginx:
+	$(DC) -f $(NGINX_FILE) logs -f
 
 lint:
 	black  --config .black src/
